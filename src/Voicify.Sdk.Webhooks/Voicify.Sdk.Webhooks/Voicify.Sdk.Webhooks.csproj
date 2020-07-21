@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.2.0</Version>
+    <Authors>Voicify</Authors>
+    <Product>Voicify</Product>
+    <Description>Tools for building better Voicify Webhooks in .NET</Description>
+    <Copyright>Voicify</Copyright>
+    <PackageIconUrl>https://wb2.6cb.myftpupload.com/wp-content/uploads/2018/06/cropped-voicify-favicon-270x270.png</PackageIconUrl>
+    <PackageProjectUrl>https://voicify.com</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
+    <PackageReference Include="ServiceResult" Version="1.0.1" />
+    <PackageReference Include="Voicify.Sdk.Core.Models" Version="2.2.0-CI-20200716-135415" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>
