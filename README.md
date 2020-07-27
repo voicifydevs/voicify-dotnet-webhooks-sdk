@@ -1,20 +1,86 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+
+This project includes models, APIs, and tools for building webhooks and integrations for your Voicify Apps.
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+You can install this package from NuGet:
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+```
+Install-Package Voicify.Sdk.Webhooks
+```
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+This includes some additional tools for a fluent API response builder, follow-up builder, and more.
+
+For example, you can build an ASP.NET Controller that overrides the response for the conversation item it is attached to:
+
+```csharp
+/// <summary>
+/// Replaces the content property / output speech with simple object mapping
+/// </summary>
+/// <param name="request"></param>
+/// <returns></returns>
+[HttpPost("ReplaceContent")]
+public IActionResult ReplaceContent([FromBody]GeneralWebhookFulfillmentRequest request)
+{
+    return Ok(new GeneralFulfillmentResponse
+    {
+        Data = new ContentFulfillmentWebhookData
+        {
+            Content = "This is now the output speech"
+        }
+    });
+}
+```
+
+Or you can use the `ResponseBuilder`:
+
+```csharp
+/// <summary
+/// Replaces the content property / output speech with a response builder
+/// </summary>
+/// <param name="request"></param>
+/// <returns></returns>
+[HttpPost("ReplaceContentResponseBuilder")]
+public IActionResult ReplaceContentResponseBuilder([FromBody]GeneralWebhookFulfillmentRequest request)
+{
+    var builder = new ResponseBuilder();
+    builder.WithContent("This is now the output speech");
+    return Ok(builder.BuildResponse());
+}
+```
+
+The `ResponseBuilder` is also built to the `IResponseBuilder` interface. So you can easily inject this into your controller or other services:
+
+```csharp
+
+// in Startup.cs
+
+services.AddScoped<IResponseBuilder, ResponseBuilder>();
+
+
+// in SampleController.cs
+
+public class SampleController : Controller 
+{
+    private readonly IResponseBuilder _responseBuilder;
+    public SampleController(IResponseBuilder responseBuilder)
+    {
+        _responseBuilder = responseBuilder;
+    }
+
+    [HttpPost("ReplaceContentResponseBuilder")]
+    public IActionResult ReplaceContentResponseBuilder([FromBody]GeneralWebhookFulfillmentRequest request)
+    {
+        _responseBuilder.WithContent("This is now the output speech");
+        return Ok(builder.BuildResponse());
+    }
+}
+```
+
+
+Voicify Partners and Customers can also check out the extended documentation and details at https://support.voicify.com
+
+# Contributing
+
+The Voicify core development team owns this repo and NuGet package, but all Voicify developers are welcome to contribute changes. Before contributing, please create an issue that you can track your PRs against and be sure there is not already a PR open for it.
