@@ -9,6 +9,7 @@
     <Copyright>Voicify</Copyright>
     <PackageIconUrl>https://wb2.6cb.myftpupload.com/wp-content/uploads/2018/06/cropped-voicify-favicon-270x270.png</PackageIconUrl>
     <PackageProjectUrl>https://voicify.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/voicifydevs/voicify-dotnet-webhooks-sdk</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
